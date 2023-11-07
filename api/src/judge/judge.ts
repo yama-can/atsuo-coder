@@ -1,0 +1,105 @@
+import { Judge, JudgeOptions, Result, Testcases } from "@w-yama-can/judge-systems";
+import { Connection, RowDataPacket } from "mysql2/promise";
+
+import { languageData } from "./config";
+
+export default class JudgeServer {
+
+	// ジャッジ待ちの問題ID
+	private queue: string[] = [];
+
+	private judging: { [id: string]: Judge } = {};
+
+	private readonly problems: {
+		[id: string]: {
+			testcases: Testcases, options: {
+				timeLimit?: number;
+				memoryLimit?: number;
+				outputLimit?: number;
+			}
+		}
+	} = {};
+
+	constructor(testcases: {
+		[id: string]: {
+			testcases: Testcases, options: {
+				timeLimit?: number;
+				memoryLimit?: number;
+				outputLimit?: number;
+			}
+		}
+	}) {
+
+		this.problems = testcases;
+
+	}
+
+	private readonly maxJudge = 10;
+	private judgingCount = 0;
+
+	public async addQueue(sql: Connection, submissionID: string) {
+
+		this.queue.push(submissionID);
+
+		await this.updateQueue(sql);
+
+	}
+
+	public async updateQueue(sql: Connection) {
+
+		if (this.queue.length > 0 && this.judgingCount < this.maxJudge) {
+
+			this.judgingCount++;
+
+			const submissionID = this.queue[0];
+			this.queue.shift();
+
+			const data = await sql.query("SELECT * FROM submissions WHERE id = ?", [submissionID]);
+
+			const [{ task, sourceCode, language }] = data[0] as [{ task: string, sourceCode: string, language: string }];
+
+			// ジャッジ開始
+
+			this.judging[submissionID] = new Judge({ ...this.problems[task].options, languageID: language, docker: { baseImage: "関係ないらしい" }, extension: languageData[language].extention }, this.problems[task].testcases, sourceCode);
+
+			console.log(this.problems[task].testcases[0].tests);
+			
+			const result = await this.judging[submissionID].build();
+
+			console.log(result);
+
+			if (result[0] == Result.CE) {
+				await sql.query("UPDATE submissions SET judge = ? where id = ?;", [JSON.stringify({ status: Result.CE, message: result[1] }), submissionID]);
+				return;
+			}
+
+			const judge = await this.judging[submissionID].judge();
+
+			await this.judging[submissionID].deleteImage();
+
+			// 結果計算
+			let sum = 0;
+			let response = Result.AC;
+
+			judge[0].forEach(([result, point]) => {
+				sum += point;
+				response = Math.max(response, result);
+			});
+
+			delete this.judging[submissionID];
+
+			this.judgingCount--;
+
+			console.log(judge);
+
+			// DBに保存
+			await sql.query("UPDATE submissions SET judge = ? where id = ?;", [JSON.stringify([[response, sum], ...judge]), submissionID]);
+
+			// 次のジャッジを開始
+			this.updateQueue(sql);
+
+		}
+
+	}
+
+}
