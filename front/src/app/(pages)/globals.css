@@ -6,8 +6,8 @@
 		'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
 	--foreground-rgb: 0, 0, 0;
-	--background-start-rgb: 4, 20, 82, 0.8;
-	--background-end-rgb: 4, 20, 82, 0.8;
+	--background-start-rgb: #1f2e55;
+	--background-end-rgb: #1f2e55;
 
 	--primary-glow: conic-gradient(from 180deg at 50% 50%,
 			rgba(4, 20, 82, 0.3) transparent 360deg);
@@ -73,9 +73,7 @@ body {
 
 body {
 	color: white;
-	background: linear-gradient(to bottom,
-			transparent,
-			rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+	background: #1f2e55;
 }
 
 a {
@@ -87,24 +85,6 @@ a {
 	html {
 		color-scheme: dark;
 	}
-}
-
-header {
-	padding: 1rem;
-	position: fixed;
-	display: flex;
-	background-color: #041452;
-	width: 100vw;
-	box-shadow: 0px 0px 10px #041452;
-}
-
-header details {
-	position: absolute;
-	right: 1rem;
-}
-
-header details summary {
-	list-style: none;
 }
 
 table {
@@ -128,4 +108,29 @@ td {
 	table {
 		width: 100%;
 	}
+}
+
+code {
+	padding: 0.3em;
+	border-radius: 0.1em;
+	background-color: brown;
+}
+
+code::after,
+code::before {
+	content: "\"";
+}
+
+input {
+	border-radius: 0.2em;
+	border: 1px solid black;
+	padding: 0.4em;
+	font-size: 21pt;
+}
+
+input[type="submit"] {
+	background-color: blue;
+	border: none;
+	margin-top: 0.2em;
+	color: white;
 }

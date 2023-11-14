@@ -1,0 +1,14 @@
+div.links {
+	position: absolute;
+	width: 100%;
+	padding-left: 2rem;
+	top: 5rem;
+	height: 3rem;
+	background: #192b4d;
+	align-items: center;
+	display: flex;
+}
+
+div.links a {
+	padding: 0.2rem 1rem;
+}

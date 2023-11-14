@@ -1,0 +1,42 @@
+.reader {
+	border: none;
+	width: 100%;
+	height: 32rem;
+}
+
+div.onlyme {
+	font-size: 20pt;
+	display: flex;
+	align-items: center;
+}
+
+div.onlyme input {
+	height: 1em;
+	width: 1em;
+}
+
+div.onlyme label {
+	padding-right: 0.5em;
+}
+
+.c-wj {
+	background-color: gray;
+}
+
+.c-ac {
+	background-color: green;
+}
+
+.c-wa, .c-ce, .c-tle, .c-re, .c-mle, .c-ole, .c-qle {
+	background-color: yellowgreen;
+}
+
+.c-wj, .c-ac, .c-wa, .c-ce, .c-tle, .c-re, .c-mle, .c-ole, .c-qle {
+	border: none;
+	border-radius: 0.2rem;
+	height: 1.5rem;
+	width: 4rem;
+	display: inline-flex;
+	align-items: center;
+	place-content: center;
+}

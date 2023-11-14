@@ -1,27 +1,7 @@
 import { Connection } from "mysql2/promise";
+import { Contest } from "./Contest";
 
-export interface Contest {
-
-	id: string;
-	name: string;
-	problems: string[];
-
-	public: boolean;
-
-	editor: string[];
-	tester: string[];
-
-	rated: string;
-	unrated: string;
-
-	start: number;
-	period: number;
-
-	description: string;
-
-}
-
-type Contests = Contest[];
+export type Contests = Contest[];
 
 export async function getContests(sql: Connection, userId?: string) {
 

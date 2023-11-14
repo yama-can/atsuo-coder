@@ -62,11 +62,7 @@ export default class JudgeServer {
 
 			this.judging[submissionID] = new Judge({ ...this.problems[task].options, languageID: language, docker: { baseImage: "関係ないらしい" }, extension: languageData[language].extention }, this.problems[task].testcases, sourceCode);
 
-			console.log(this.problems[task].testcases[0].tests);
-			
 			const result = await this.judging[submissionID].build();
-
-			console.log(result);
 
 			if (result[0] == Result.CE) {
 				await sql.query("UPDATE submissions SET judge = ? where id = ?;", [JSON.stringify({ status: Result.CE, message: result[1] }), submissionID]);
@@ -90,13 +86,11 @@ export default class JudgeServer {
 
 			this.judgingCount--;
 
-			console.log(judge);
-
 			// DBに保存
 			await sql.query("UPDATE submissions SET judge = ? where id = ?;", [JSON.stringify([[response, sum], ...judge]), submissionID]);
 
 			// 次のジャッジを開始
-			this.updateQueue(sql);
+			this.updateQueue(sql).then(() => { });
 
 		}
 

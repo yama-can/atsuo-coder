@@ -1,0 +1,110 @@
+div.bg1 {
+	position: absolute;
+	top: 0;
+	left: 7rem;
+	background: #324263;
+	width: 200px;
+	height: 5rem;
+	transform: skewX(-45deg) translateY(0);
+	z-index: 1;
+}
+
+div.bg2 {
+	position: absolute;
+	top: 0;
+	left: 14rem;
+	background: #192b4d;
+	width: 22rem;
+	height: 5rem;
+	transform: skewX(45deg) translateY(0);
+	z-index: 0;
+}
+
+div.bg3 {
+	position: absolute;
+	top: 0;
+	left: 36rem;
+	background: #1f2e55;
+	width: 22rem;
+	height: 5rem;
+	transform: skewX(45deg) translateY(0);
+	z-index: 0;
+}
+
+div.bg4 {
+	position: absolute;
+	top: 0;
+	left: 58rem;
+	background: #192b4d;
+	width: 22rem;
+	height: 5rem;
+	transform: skewX(45deg) translateY(0);
+	z-index: 0;
+}
+
+div.bg5-1 {
+	position: absolute;
+	top: 0;
+	left: 80rem;
+	background: #324263;
+	width: 15rem;
+	height: 5rem;
+	transform: skewX(45deg) translateY(0);
+	z-index: 0;
+}
+
+div.bg5-2 {
+	position: absolute;
+	top: 0;
+	left: 85rem;
+	background: #324263;
+	width: 15rem;
+	height: 5rem;
+	transform: skewX(-45deg) translateY(0);
+	z-index: 0;
+}
+
+header.title {
+	padding: 0.5rem;
+	position: fixed;
+	display: flex;
+	background-color: #3e4b70;
+	width: 100vw;
+	height: 5rem;
+	z-index: 100;
+}
+
+header.title a {
+	font-size: 20pt;
+	padding-left: 0.5rem;
+	color: aqua;
+	font-weight: 500;
+	text-shadow: 0px 0px 10px rgb(0, 0, 0, 0.7);
+	z-index: 1;
+	position: absolute;
+	z-index: 100;
+}
+
+header.list {
+	position: fixed;
+	display: flex;
+	top: 3rem;
+	background: rgb(255, 255, 255, 0.3);
+	height: 2rem;
+	width: 100vw;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	padding-bottom: 0.4rem;
+	padding: 0;
+}
+
+header.list * {
+	color: aqua;
+	padding-left: 3rem;
+	font-weight: 500;
+}
+
+div.headers {
+	z-index: 100;
+}

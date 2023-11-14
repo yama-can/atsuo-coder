@@ -76,7 +76,7 @@ front.prepare().then(async () => {
 	});
 
 	const judgeServer = new JudgeServer(testcases);
-	judgeServer.addQueue(sql, "test");
+	// judgeServer.addQueue(sql, "test");
 
 	app.use((req, res, next) => {
 		if (req.path.endsWith("/") && req.path.length > 1) {
@@ -96,11 +96,11 @@ front.prepare().then(async () => {
 			if (files[i] == 'index.js' || files[i].endsWith('/index.js')) {
 				console.log(`Loaded ${path.join(__dirname, "./routes", files[i])} as ${path.join("/", files[i], '../')}`);
 				const input = (await import(path.join(__dirname, "./routes", files[i])));
-				app.use(path.join("/", files[i], '../'), input.default(sql));
+				app.use(path.join("/", files[i], '../'), input.default(sql, judgeServer));
 			} else {
 				console.log(`Loaded ${path.join(__dirname, "./routes", files[i])} as ${path.join("/", files[i].replace(/\.js$/, ""))}`);
 				const input = (await import(path.join(__dirname, "./routes", files[i])));
-				app.use(path.join("/", files[i].replace(/\.js$/, "")), input.default(sql));
+				app.use(path.join("/", files[i].replace(/\.js$/, "")), input.default(sql, judgeServer));
 			}
 		} else {
 			files.push(...fs.readdirSync(path.join(__dirname, "./routes", files[i])).map((file) => path.join(files[i], file)));
