@@ -1,6 +1,7 @@
-"use client";
-
-import { useEffect } from "react";
+import { getContests } from "./[contest]/contests";
+import { User, getUserByToken } from "./[contest]/tasks/@component/users";
+import { cookies } from "next/headers";
+import { sql } from "@/app/sql";
 
 export interface Contest {
 
@@ -20,71 +21,11 @@ export interface Contest {
 
 }
 
-export default function Page(params: { searchParams: { [key: string]: string } }) {
-	useEffect(() => {
+export default async function Page(params: { searchParams: { [key: string]: string } }) {
 
-		const infCon = (document.querySelector("table#inf-con tbody") as HTMLTableSectionElement);
-		const nowCon = (document.querySelector("table#now-con tbody") as HTMLTableSectionElement);
-		const befCon = (document.querySelector("table#bef-con tbody") as HTMLTableSectionElement);
-		const aftCon = (document.querySelector("table#aft-con tbody") as HTMLTableSectionElement);
-
-		(async () => {
-
-			if (!("once" in global)) {
-				(global as any).once = true;
-			} else {
-				return;
-			}
-
-			const contests = await fetch("/contests/json").then((res) => res.json());
-
-			const time = new Date().getTime();
-
-			contests.forEach((value: Contest) => {
-
-				const child = document.createElement("tr");
-				const start = document.createElement("td");
-				const type = document.createElement("td");
-				const name = document.createElement("td");
-				const rated = document.createElement("td");
-				const period = document.createElement("td");
-
-				const link = document.createElement("a");
-
-				link.href = `/contests/${value.id}`;
-
-				start.innerText = new Date(value.start).toLocaleString("ja");
-				type.innerText = value.public ? "公開" : "非公開";
-				name.innerText = value.name;
-				rated.innerText = value.rated || "無制限";
-				period.innerText = new Date(value.period).toLocaleTimeString("ja");
-
-				link.appendChild(name);
-
-				child.appendChild(start);
-				child.appendChild(type);
-				child.appendChild(link);
-				child.appendChild(rated);
-				child.appendChild(period);
-
-				if (value.period == -1) {
-					start.innerText = "常設";
-					period.innerText = "常設";
-					infCon.appendChild(child);
-				}
-				else if (value.start >= time && value.start + value.period <= time) {
-					nowCon.appendChild(child);
-				}
-				else if (value.start >= time) {
-					aftCon.appendChild(child);
-				}
-				else {
-					befCon.appendChild(child);
-				}
-			})
-		})();
-
-	})
+	const cookie = cookies();
+	const user = (!cookie.has("ct") && !cookie.has("cc") ? null : await getUserByToken(sql, cookie.get("cc")!!.value, cookie.get("ct")!!.value)) || { id: undefined };
+	const contests = await getContests(sql, user.id);
 
 	return (
 		<>
@@ -105,7 +46,18 @@ export default function Page(params: { searchParams: { [key: string]: string } }
 						</tr>
 					</thead>
 					<tbody>
-
+						{
+							contests.filter((contest) => contest.period == -1).map((contest) => {
+								return <tr>
+									<td>{new Date(contest.start).toLocaleString("ja")}</td>
+									<td>{contest.public ? "公開" : "非公開"}</td>
+									<td><a href={`/contests/${contest.id}`}>{contest.name}</a></td>
+									<td>{contest.name}</td>
+									<td>{contest.rated}</td>
+									<td>inf</td>
+								</tr>
+							})
+						}
 					</tbody>
 				</table>
 			</div>
@@ -124,7 +76,17 @@ export default function Page(params: { searchParams: { [key: string]: string } }
 						</tr>
 					</thead>
 					<tbody>
-
+						{
+							contests.filter((contest) => contest.start <= Date.now() && contest.start + contest.period >= Date.now()).map((contest) => {
+								return <tr>
+									<td>{new Date(contest.start).toLocaleString("ja")}</td>
+									<td>{contest.public ? "公開" : "非公開"}</td>
+									<td><a href={`/contests/${contest.id}`}>{contest.name}</a></td>
+									<td>{contest.rated}</td>
+									<td>{`${Math.floor((contest.period - (contest.period - contest.period % 60) % 3600) / 3600)}:${Math.floor(((contest.period - contest.period % 60) % 3600) / 60)}:${contest.period % 60}`}</td>
+								</tr>
+							})
+						}
 					</tbody>
 				</table>
 			</div>
@@ -143,7 +105,17 @@ export default function Page(params: { searchParams: { [key: string]: string } }
 						</tr>
 					</thead>
 					<tbody>
-
+						{
+							contests.filter((contest) => contest.start > Date.now()).map((contest) => {
+								return <tr>
+									<td>{new Date(contest.start).toLocaleString("ja")}</td>
+									<td>{contest.public ? "公開" : "非公開"}</td>
+									<td><a href={`/contests/${contest.id}`}>{contest.name}</a></td>
+									<td>{contest.rated}</td>
+									<td>{`${Math.floor((contest.period - (contest.period - contest.period % 60) % 3600) / 3600)}:${Math.floor(((contest.period - contest.period % 60) % 3600) / 60)}:${contest.period % 60}`}</td>
+								</tr>
+							})
+						}
 					</tbody>
 				</table>
 			</div>
@@ -162,7 +134,17 @@ export default function Page(params: { searchParams: { [key: string]: string } }
 						</tr>
 					</thead>
 					<tbody>
-
+						{
+							contests.filter((contest) => contest.start + contest.period < Date.now()).map((contest) => {
+								return <tr>
+									<td>{new Date(contest.start).toLocaleString("ja")}</td>
+									<td>{contest.public ? "公開" : "非公開"}</td>
+									<td><a href={`/contests/${contest.id}`}>{contest.name}</a></td>
+									<td>{contest.rated}</td>
+									<td>{`${Math.floor((contest.period - (contest.period - contest.period % 60) % 3600) / 3600)}:${Math.floor(((contest.period - contest.period % 60) % 3600) / 60)}:${contest.period % 60}`}</td>
+								</tr>
+							})
+						}
 					</tbody>
 				</table>
 			</div>

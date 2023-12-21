@@ -7,6 +7,12 @@ export default function Route(sql: Connection) {
 	const router = Router();
 	router.use(express.urlencoded({ extended: true }));
 	router.use(cookieParser());
+
+	router.get('/', async (req, res, next) => {
+		res.clearCookie("LEVEL_FLASH");
+		next();
+	});
+
 	router.post('/', async (req, res, next) => {
 
 		if (!req.body.id || !req.body.password || !req.body.ct_token) {

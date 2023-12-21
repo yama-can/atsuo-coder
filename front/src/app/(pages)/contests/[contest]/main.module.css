@@ -1,12 +1,13 @@
 div.links {
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	padding-left: 2rem;
-	top: 5rem;
-	height: 3rem;
+	top: 5.5rem;
+	height: 2rem;
 	background: #192b4d;
 	align-items: center;
 	display: flex;
+	z-index: 100;
 }
 
 div.links a {

@@ -31,7 +31,6 @@ export default async function Home(params: { params: { [key: string]: string } }
 		notFound();
 	}
 
-
 	const { sourceCode, judge, task } = Array.from(result[0] as any)[0] as any;
 
 	const taskInfo = await getTask(sql, task);
@@ -43,7 +42,7 @@ export default async function Home(params: { params: { [key: string]: string } }
 	return (
 		<>
 			<title>提出 | Atsuo Coder</title>
-			<h1>提出</h1>
+			<h1>提出 | Atsuo Coder</h1>
 			<br />
 			<h2>Task</h2>
 			<a href={`/contests/${params.params.contest}/tasks/${task}`}>{taskInfo[0].name}</a>
@@ -57,7 +56,12 @@ export default async function Home(params: { params: { [key: string]: string } }
 					<p>Waiting Judge</p> :
 					parsedJudge.status == 3 ?
 						<><p className={submissionsStyle["c-ce"]}>CE</p><br /><code>{parsedJudge.message}</code></> :
-						<p><span className={submissionsStyle[`c-${resultStrings[parsedJudge[0][0]].toLowerCase()}`]}>{resultStrings[parsedJudge[0][0]]}</span>: {parsedJudge[0][1]} points</p>
+						<>
+							<p>
+								<span className={submissionsStyle[`c-${resultStrings[parsedJudge[0][0]].toLowerCase()}`]}>{resultStrings[parsedJudge[0][0]]}</span>
+							</p>
+							<p>{parsedJudge[0][1]} points</p>
+						</>
 			}
 			<br />
 			<h2>Testcases</h2>
@@ -70,12 +74,47 @@ export default async function Home(params: { params: { [key: string]: string } }
 								<td>Testcase ID</td>
 								<td>Result</td>
 								<td>Score</td>
+								<td>Detail</td>
 							</tr>
 						</thead>
 						<tbody>
 							{
 								(parsedJudge[1] as [number, number][]).map((v, i) => {
-									return <tr><td>{i + 1}</td><td className={submissionsStyle[`c-${resultStrings[v[0]].toLowerCase()}`]}>{resultStrings[v[0]]}</td><td>{v[1]} points</td></tr>
+									const judgeDetails: { [result: number]: number } = [];
+									let results: number[] = [];
+									parsedJudge[2][i].forEach((v: [number, number]) => {
+										if (v[0] in judgeDetails) {
+											judgeDetails[v[0]]++;
+										} else {
+											judgeDetails[v[0]] = 1;
+											results.push(v[0]);
+										}
+									});
+									results.sort();
+									return <tr>
+										<td>{i + 1}</td>
+										<td>
+											<div className={submissionsStyle[`c-${resultStrings[v[0]].toLowerCase()}`]}>
+												{resultStrings[v[0]]}
+											</div>
+										</td>
+										<td>{v[1]} points</td>
+										<td>
+											{
+												results.map((result) => {
+													return (
+														<>
+															<span className={submissionsStyle.detailResult}>
+																<div className={submissionsStyle[`c-${resultStrings[result].toLowerCase()}`]}>
+																	{resultStrings[result]}
+																</div> × {judgeDetails[result]}
+															</span>
+														</>
+													)
+												})
+											}
+										</td>
+									</tr>
 								})
 							}
 						</tbody>

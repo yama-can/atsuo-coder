@@ -1,5 +1,6 @@
 import SqlString from "sqlstring";
-import { Connection } from "mysql2/promise";
+import { Connection, FieldPacket } from "mysql2/promise";
+import redis from "@/app/redis";
 
 export interface Contest {
 
@@ -59,15 +60,45 @@ export async function getTasks(sql: Connection, ids: string[]) {
 
 	return new Promise<{ id: string, question: string, judge_type: number, editor: string, tester: string, name: string, score: number }[]>(async (resolve) => {
 
-		const data = await sql.query("SELECT * from tasks where id IN (?);", [ids]);
+		const id = Array.from(ids);
 
-		resolve(
-			(data[0] as any[]).map((data: any) => {
+		let res: { id: string, question: string, judge_type: number, editor: string, tester: string, name: string, score: number }[] = [];
 
-				return { ...data, editor: JSON.parse(data.editor), tester: JSON.parse(data.tester) };
+		let resolvers: string[] = [];
 
-			})
-		);
+		for (let i = 0; i < id.length; i++) {
+
+			const cache = await redis.get(`task:${id[i]}`);
+
+			if (cache) {
+				id[i] = "";
+				res[i] = JSON.parse(cache);
+			} else {
+				resolvers.push(id[i]);
+			}
+
+		}
+
+
+		if (resolvers.length == 0) {
+			resolve(res);
+			return;
+		}
+
+		const [data] = await sql.query("SELECT * from tasks where id IN (?);", [resolvers]) as [any[], FieldPacket[]];
+
+		let cnt = 0;
+		for (let i = 0; i < id.length; i++) {
+
+			if (id[i] == "") continue;
+
+			res[i] = { ...data[cnt], editor: JSON.parse(data[cnt].editor), tester: JSON.parse(data[cnt].tester) };
+
+			await redis.set(`task:${id[i]}`, JSON.stringify(res[i]));
+
+		}
+
+		resolve(res);
 
 	})
 

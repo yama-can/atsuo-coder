@@ -31,6 +31,7 @@ export default async function Home(p: { params: { contest: string } }) {
 			<p>
 				Editor: {contestInfo[0].editor} Tester: {contestInfo[0].tester.length == 0 ? "なし" : contestInfo[0].tester} Rated: {contestInfo[0].rated || "無制限"}<br />
 				開始: {new Date(contestInfo[0].start).toLocaleString("ja")}<br />
+				終了: {new Date(contestInfo[0].start + contestInfo[0].period).toLocaleString("ja")}<br />
 				種別: {contestInfo[0].public ? "公開" : "非公開"}
 			</p>
 

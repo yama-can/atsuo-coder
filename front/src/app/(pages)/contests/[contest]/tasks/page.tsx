@@ -15,15 +15,19 @@ export default async function Home(p: { params: { contest: string } }) {
 	}
 
 	const contestInfo = await getContest(sql, p.params.contest, user?.id);
+	if (contestInfo.length == 0) notFound();
 	const tasks = await getTasks(sql, contestInfo[0].problems);
+
+	if (contestInfo[0].start + contestInfo[0].period > Date.now()) {
+		if (!user) notFound();
+		if (contestInfo[0].editor.indexOf(user!!.id) == -1 && contestInfo[0].tester.indexOf(user!!.id) == -1 && contestInfo[0].rated_users.indexOf(user!!.id) == -1 && contestInfo[0].unrated_users.indexOf(user!!.id) == -1) {
+			notFound();
+		}
+	}
 
 	if (contestInfo.length == 0) {
 		notFound();
 	}
-
-	const Mathjax = dynamic(() => import("./[task]/mathjax"), {
-		ssr: false
-	});
 
 	return (
 		<>
@@ -31,11 +35,12 @@ export default async function Home(p: { params: { contest: string } }) {
 			<p>
 				Editor: {contestInfo[0].editor} Tester: {contestInfo[0].tester.length == 0 ? "なし" : contestInfo[0].tester} Rated: {contestInfo[0].rated || "無制限"}<br />
 				開始: {new Date(contestInfo[0].start).toLocaleString("ja")}<br />
+				終了: {new Date(contestInfo[0].start + contestInfo[0].period).toLocaleString("ja")}<br />
 				種別: {contestInfo[0].public ? "公開" : "非公開"}
 			</p>
 
 			{
-				contestInfo[0].editor.indexOf(user?.id || "undefined") != -1 || contestInfo[0].tester.indexOf(user?.id || "undefined") != -1 || contestInfo[0].start > Date.now() ?
+				contestInfo[0].editor.indexOf(user?.id || "undefined") != -1 || contestInfo[0].tester.indexOf(user?.id || "undefined") != -1 || contestInfo[0].start <= Date.now() ?
 					<>
 						<h2>問題</h2>
 						<table>
@@ -66,7 +71,9 @@ export default async function Home(p: { params: { contest: string } }) {
 							</tbody>
 						</table>
 					</>
-					: <></>
+					: <>
+						<p>コンテストはまだ始まっていません。</p>
+					</>
 			}
 		</>
 	)

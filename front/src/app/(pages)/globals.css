@@ -11,8 +11,7 @@
 
 	--primary-glow: conic-gradient(from 180deg at 50% 50%,
 			rgba(4, 20, 82, 0.3) transparent 360deg);
-	--secondary-glow: radial-gradient(rgba(4, 20, 82, 1),
-			rgba(255, 255, 255, 0));
+	--secondary-glow: #283848;
 
 	--tile-start-rgb: 239, 245, 249;
 	--tile-end-rgb: 228, 232, 233;
@@ -63,6 +62,7 @@
 	box-sizing: border-box;
 	padding: 0;
 	margin: 0;
+	font-family: "Calibri";
 }
 
 html,
@@ -73,7 +73,7 @@ body {
 
 body {
 	color: white;
-	background: #1f2e55;
+	background-color: #283848;
 }
 
 a {
@@ -94,8 +94,7 @@ table {
 	width: 950px;
 }
 
-tr,
-td {
+tr {
 	border: white 1px solid;
 }
 
@@ -122,15 +121,64 @@ code::before {
 }
 
 input {
-	border-radius: 0.2em;
-	border: 1px solid black;
-	padding: 0.4em;
-	font-size: 21pt;
+	width: 440px;
+	margin-bottom: 20px;
+	padding: 8px 10px;
+	border: 1px solid #283848;
+	border-radius: 5px;
+	background-color: #708090;
+	color: white;
+	font-size: 1em;
+	line-height: 1.2;
+	outline: 0;
+}
+
+input:focus {
+	border: 1px solid #60A0F0;
+	transition: all 0.6s ease;
+	outline: 0;
 }
 
 input[type="submit"] {
-	background-color: blue;
+	background-color: #102030;
+	transition: all 0.6s ease;
 	border: none;
+	width: 440px;
 	margin-top: 0.2em;
 	color: white;
+}
+
+input::placeholder {
+	color: #C0C0C0;
+}
+
+input[type="button"]:focus {
+	border: 1px solid #283848;
+}
+
+input[type="button"]:active,
+input[type="submit"]:active {
+	background-color: #102030;
+}
+
+input[type="submit"]:disabled {
+	background-color: rgba(16, 32, 48, 0.3);
+	color: rgba(255, 255, 255, 0.3);
+}
+
+li {
+	list-style: none;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+:root {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+header {
+	z-index: 100;
 }

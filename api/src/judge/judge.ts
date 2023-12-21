@@ -1,5 +1,5 @@
-import { Judge, JudgeOptions, Result, Testcases } from "@w-yama-can/judge-systems";
-import { Connection, RowDataPacket } from "mysql2/promise";
+import { Judge, Result, Testcases } from "@w-yama-can/judge-systems";
+import { Connection } from "mysql2/promise";
 
 import { languageData } from "./config";
 

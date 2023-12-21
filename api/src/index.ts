@@ -77,6 +77,9 @@ front.prepare().then(async () => {
 
 	const judgeServer = new JudgeServer(testcases);
 	// judgeServer.addQueue(sql, "test");
+	setInterval(() => {
+		judgeServer.updateQueue(sql);
+	}, 1500);
 
 	app.use((req, res, next) => {
 		if (req.path.endsWith("/") && req.path.length > 1) {

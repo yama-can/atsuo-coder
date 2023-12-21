@@ -1,32 +1,19 @@
-"use client";
+import { sql } from "@/app/sql";
+import { User, getUsers } from "../contests/[contest]/tasks/@component/users";
 
-import { useEffect } from "react";
+export default async function Ranking() {
 
-export default function Ranking() {
-	useEffect(() => {
-		if("once" in global) return;
-		(async () => {
-			(global as any).once = true;
-			const table = document.querySelector("#data") as HTMLTableElement;
-			const data = await fetch("/ranking/json").then((res) => res.json()) as { rating: number, id: string, name: string[], grade: string }[];
-			data.forEach((v, i) => {
-				const row = table.insertRow();
-				const rank = row.insertCell();
-				const id = row.insertCell();
-				const rating = row.insertCell();
-				const name = row.insertCell();
-				const grade = row.insertCell();
-				rank.innerText = `${i + 1}`;
-				rating.innerText = `${v.rating}`;
-				const link = document.createElement("a");
-				link.innerText = v.id;
-				link.href = `/users/${v.id}`;
-				id.appendChild(link);
-				name.innerText = v.name.join(" ");
-				grade.innerText = v.grade;
-			});
-		})();
+	const result = (await getUsers(sql)).map((user) => {
+
+		let parse: Partial<User> = user;
+
+		delete parse.password;
+
+		return parse;
+
 	});
+
+	result.sort((a, b) => b.rating!! - a.rating!!);
 
 	return (
 		<>
@@ -41,7 +28,19 @@ export default function Ranking() {
 						<td>Grade</td>
 					</tr>
 				</thead>
-				<tbody id="data"></tbody>
+				<tbody id="data">
+					{
+						result.map((user, i) =>
+							<tr>
+								<td>{i + 1}</td>
+								<td>{user.id}</td>
+								<td>{user.rating}</td>
+								<td>{user.name?.join(" ")}</td>
+								<td>{user.grade}</td>
+							</tr>
+						)
+					}
+				</tbody>
 			</table>
 		</>
 	)

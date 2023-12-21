@@ -1,5 +1,7 @@
 "use client";
 
+import "./button.css"
+import "@/app/(pages)/globals.css"
 import { useEffect } from 'react';
 import submitStyle from './task.module.css'
 
@@ -26,7 +28,7 @@ export default function Home(params: { searchParams: { [key: string]: string } }
 	return (
 		<>
 			<iframe src="/frame/ace-editor" id="ace-editor" width="100vw" className={submitStyle.ace}></iframe>
-			<button id="submit-button" className={submitStyle['submit-button']}>提出</button>
+			<input type="button" id="submit-button" className={submitStyle['submit-button']} value="提出" width="100%" />
 
 			<form action={`/submit/${params.searchParams.contest}/${params.searchParams.task}`} method="post" target="_top" id="submit-form" hidden>
 				<textarea name="sourceCode" id="code"></textarea>

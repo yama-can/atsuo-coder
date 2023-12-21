@@ -25,7 +25,8 @@ export default function Home(params: { searchParams: { [key: string]: string } }
 		(global as any).once = true;
 
 		if (params.searchParams.readonly) {
-			editorRef.current?.editor.setReadOnly(true);
+			editorRef.current!!.editor.setReadOnly(true);
+			console.debug("Readonly mode");
 		}
 
 		window.addEventListener("message", (data) => {

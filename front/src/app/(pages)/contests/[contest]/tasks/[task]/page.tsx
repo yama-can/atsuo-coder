@@ -39,15 +39,15 @@ export default async function Home(p: { params: { contest: string, task: string 
 
 	// console.log(parse(marked(taskInfo[0].question)));
 
-	const ct_token = crypto.randomUUID();
-	await sql.query("INSERT into ct_token (id, use_to, created_at, user_id) VALUES (?, ?, now(), ?);", [ct_token, "SUBMIT", user?.id]);
-
 	if (contestInfo[0].start + contestInfo[0].period > Date.now()) {
 		if (!user) notFound();
-		if (taskInfo[0].editor.indexOf(user!!.id) == -1 && taskInfo[0].tester.indexOf(user!!.id) == -1 && contestInfo[0].rated.indexOf(user!!.id) == -1 && contestInfo[0].unrated.indexOf(user!!.id) == -1) {
+		if (taskInfo[0].editor.indexOf(user!!.id) == -1 && taskInfo[0].tester.indexOf(user!!.id) == -1 && contestInfo[0].rated_users.indexOf(user!!.id) == -1 && contestInfo[0].unrated_users.indexOf(user!!.id) == -1) {
 			notFound();
 		}
 	}
+
+	const ct_token = crypto.randomUUID();
+	await sql.query("INSERT into ct_token (id, use_to, created_at, user_id) VALUES (?, ?, now(), ?);", [ct_token, "SUBMIT", user?.id]);
 
 	return (
 		<>

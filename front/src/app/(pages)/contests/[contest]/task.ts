@@ -1,5 +1,6 @@
 import { Connection } from "mysql2/promise";
 import { Contest, Task } from "./Contest";
+import redis from "@/app/redis";
 
 export type Tasks = Task[];
 
@@ -25,15 +26,25 @@ export async function getTask(sql: Connection, id: string) {
 
 	return new Promise<Tasks>(async (resolve) => {
 
+		const cache = await redis.get(`task:${id}`);
+		if (cache != null) {
+			const data = JSON.parse(cache);
+			resolve([data]);
+			return;
+		}
+
 		const data = await sql.query(`SELECT * from tasks where id = ?;`, [id]);
 
-		resolve(
+		const res = (
 			(data[0] as any[]).map((data: any) => {
 
 				return { ...data, editor: JSON.parse(data.editor), tester: JSON.parse(data.tester) };
 
 			})
 		);
+
+		await redis.set(`task:${id}`, JSON.stringify(res));
+		resolve(res);
 
 	})
 

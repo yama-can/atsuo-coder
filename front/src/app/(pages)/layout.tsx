@@ -3,7 +3,11 @@ import styles from './page.module.css'
 import headerStyles from "./header.module.css"
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Link from 'next/link'
+import { cookies } from 'next/headers'
+import React, { useEffect } from 'react';
+import notFound from '../not-found'
+import { User, getUserByToken } from './contests/[contest]/tasks/@component/users'
+import { sql } from '../sql'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,11 +16,7 @@ export const metadata: Metadata = {
 	description: 'Judge System for W-PCP',
 }
 
-export default function RootLayout({
-	children,
-}: {
-	children: React.ReactNode
-}) {
+function baseChild(children: React.ReactNode, user: User | null) {
 	return (
 		<html lang="ja">
 			<link rel="icon" href="/logo.png" />
@@ -24,30 +24,44 @@ export default function RootLayout({
 			<body className={inter.className}>
 				<div className={headerStyles.headers}>
 					<header className={headerStyles.title}>
-
-						<div className={headerStyles.bg1}></div>
-						<div className={headerStyles.bg2}></div>
-						<div className={headerStyles.bg3}></div>
-						<div className={headerStyles.bg4}></div>
-						<div className={headerStyles["bg5-1"]}></div>
-						<div className={headerStyles["bg5-2"]}></div>
-						<a href="/">AtsuoCoder</a>
-
+						<ul className={headerStyles.head}>
+							<h2 className={headerStyles.titleText}>AtsuoCoder</h2>
+							<ul className={headerStyles.login}>
+								{
+									user == null ?
+										<><li><a href="/login">Login</a></li>
+											<li className={headerStyles.signup}><a href="/signup">Sign Up</a></li></> :
+										<li><a href="/logout" className={headerStyles.signup}>Logout</a></li>
+								}
+							</ul>
+						</ul>
 					</header>
-
-					<header className={headerStyles.list}>
-						<a href="/">Home</a>
-						<a href="/contests">Contests</a>
-						<a href="/ranking">Ranking</a>
-					</header>
+					<ul className={headerStyles.menu}>
+						<li><a href="/">Home</a></li>
+						<li><a href="/contests">Contests</a></li>
+						<li><a href="/ranking">Ranking</a></li>
+					</ul>
 				</div>
 
 				<main className={styles.main}>
-					<div className={styles.center}>
-					</div>
+					<div className={styles.center}></div>
 					{children}
 				</main>
 			</body>
-		</html>
-	)
+		</html>);
+}
+
+export default async function RootLayout({
+	children,
+}: {
+	children: React.ReactNode
+}) {
+
+	const cookie = cookies();
+	const user = await getUserByToken(sql, cookie.get("cc")?.value, cookie.get("ct")?.value);
+	if (!user || user.admin == false) {
+		notFound();
+	}
+
+	return (baseChild(children, user));
 }

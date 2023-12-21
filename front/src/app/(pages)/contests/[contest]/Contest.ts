@@ -10,7 +10,9 @@ export interface Contest {
 	tester: string[];
 
 	rated: string;
-	unrated: string;
+
+	rated_users: string[];
+	unrated_users: string[];
 
 	start: number;
 	period: number;

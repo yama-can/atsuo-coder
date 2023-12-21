@@ -1,110 +1,55 @@
-div.bg1 {
-	position: absolute;
-	top: 0;
-	left: 7rem;
-	background: #324263;
-	width: 200px;
-	height: 5rem;
-	transform: skewX(-45deg) translateY(0);
-	z-index: 1;
-}
-
-div.bg2 {
-	position: absolute;
-	top: 0;
-	left: 14rem;
-	background: #192b4d;
-	width: 22rem;
-	height: 5rem;
-	transform: skewX(45deg) translateY(0);
-	z-index: 0;
-}
-
-div.bg3 {
-	position: absolute;
-	top: 0;
-	left: 36rem;
-	background: #1f2e55;
-	width: 22rem;
-	height: 5rem;
-	transform: skewX(45deg) translateY(0);
-	z-index: 0;
-}
-
-div.bg4 {
-	position: absolute;
-	top: 0;
-	left: 58rem;
-	background: #192b4d;
-	width: 22rem;
-	height: 5rem;
-	transform: skewX(45deg) translateY(0);
-	z-index: 0;
-}
-
-div.bg5-1 {
-	position: absolute;
-	top: 0;
-	left: 80rem;
-	background: #324263;
-	width: 15rem;
-	height: 5rem;
-	transform: skewX(45deg) translateY(0);
-	z-index: 0;
-}
-
-div.bg5-2 {
-	position: absolute;
-	top: 0;
-	left: 85rem;
-	background: #324263;
-	width: 15rem;
-	height: 5rem;
-	transform: skewX(-45deg) translateY(0);
-	z-index: 0;
-}
-
 header.title {
-	padding: 0.5rem;
+	padding: 0.5rem 0;
 	position: fixed;
 	display: flex;
-	background-color: #3e4b70;
-	width: 100vw;
-	height: 5rem;
+	width: 100%;
 	z-index: 100;
-}
-
-header.title a {
-	font-size: 20pt;
-	padding-left: 0.5rem;
-	color: aqua;
-	font-weight: 500;
-	text-shadow: 0px 0px 10px rgb(0, 0, 0, 0.7);
-	z-index: 1;
-	position: absolute;
-	z-index: 100;
-}
-
-header.list {
-	position: fixed;
-	display: flex;
-	top: 3rem;
-	background: rgb(255, 255, 255, 0.3);
-	height: 2rem;
-	width: 100vw;
-	z-index: 100;
-	display: flex;
-	align-items: center;
-	padding-bottom: 0.4rem;
-	padding: 0;
-}
-
-header.list * {
-	color: aqua;
-	padding-left: 3rem;
-	font-weight: 500;
+	text-indent: 15px;
+	background-color: #102030;
+	color: white;
+	height: 3.5rem;
 }
 
 div.headers {
 	z-index: 100;
+}
+
+.head {
+	padding: 5px;
+	display: flex;
+	width: 100%;
+	background-color: #102030;
+}
+
+.head .titleText {
+	width: 70%;
+	text-align: left;
+	background-color: #102030;
+}
+
+.head .login {
+	width: 30%;
+	display: flex;
+	justify-content: right;
+}
+
+.menu {
+	margin: 0 auto;
+	padding: 0px;
+	display: flex;
+	justify-content: left;
+	list-style: none;
+	background-color: #405060;
+	top: 3.5rem;
+	width: 100%;
+	position: fixed;
+	height: 2rem;
+	z-index: 100;
+}
+
+.headers li,
+.menu li {
+	padding: 5px;
+	margin: 0 20px;
+	font-size: 16px;
 }
