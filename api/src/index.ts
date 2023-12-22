@@ -6,7 +6,8 @@ import path from "path";
 import mysql, { RowDataPacket } from "mysql2/promise";
 import JudgeServer from "./judge/judge";
 import { Testcases } from "@w-yama-can/judge-systems";
-import http2 from "http2";
+import http from "http";
+import https from "https";
 config({ path: path.join(__dirname, "./../../.env") });
 
 const front = next({ dir: "../front", dev: process.argv.indexOf("--dev") != -1 });
@@ -113,9 +114,8 @@ front.prepare().then(async () => {
 
 	app.all("*", (req, res) => frontHandler(req, res));
 
-	app.listen(80, "0.0.0.0").addListener("listening", () => console.log("Server is listening"));
-
-	http2.createSecureServer({ cert: fs.readFileSync(path.join(__dirname, "./../../certs/cert.pem")), key: fs.readFileSync(path.join(__dirname, "./../../certs/key.pem")) }, app as any).listen(443);
+	http.createServer((rep, res) => res.writeHead(301, { Location: `https://${rep.headers.host}${rep.url}` }).end()).listen(80);
+	https.createServer({ cert: fs.readFileSync(path.join(__dirname, "./../../certs/cert.pem")), key: fs.readFileSync(path.join(__dirname, "./../../certs/key.pem")) }, app).listen(443, "0.0.0.0");
 });
 
 type Router = ((sql: mysql.Connection) => express.Router);
