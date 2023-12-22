@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
 	}
 
 	const url = req.nextUrl.clone();
+	url.host = "judge.w-pcp.net";
 	url.port = "443";
 
 	if (!data.has("type")) {
