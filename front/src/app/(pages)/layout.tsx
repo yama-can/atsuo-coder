@@ -32,8 +32,8 @@ function baseChild(children: React.ReactNode, user: User | null) {
 										<><li><a href="/login">Login</a></li>
 											<li className={headerStyles.signup}><a href="/signup">Sign Up</a></li></> :
 										<>
-											<li><a href="/logout">Logout</a></li>
-											<li><a href="/account/settings" className={headerStyles.signup}>Account Settings</a></li>
+											<li><a href="/account/settings">Account Settings</a></li>
+											<li><a href="/logout" className={headerStyles.signup}>Logout</a></li>
 										</>
 								}
 							</ul>
