@@ -7,7 +7,6 @@ import parse from 'html-react-parser';
 import { cookies } from "next/headers";
 import { User, getUserByToken } from "./tasks/@component/users";
 import styles from "./page.module.css";
-import { useCallback } from "react";
 
 export default async function Home(p: { params: { contest: string } }) {
 

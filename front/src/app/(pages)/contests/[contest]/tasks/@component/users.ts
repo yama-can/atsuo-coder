@@ -126,6 +126,7 @@ export async function getUserByToken(sql: Connection, token?: string, ct?: strin
 		const user = await getUser(sql, tokens[0].user);
 
 		redis.set(`user:token:${token}:${ct}`, JSON.stringify(user));
+		redis.expire(`user:token:${token}:${ct}`, 60 * 60);
 		resolve(user);
 	});
 }

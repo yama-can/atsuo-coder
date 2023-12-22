@@ -32,17 +32,17 @@ export default async function Page(params: { searchParams: { [key: string]: stri
 			<h1>Contests</h1>
 			<p>コンテスト一覧です</p>
 
-			<h2>常設中のコンテスト</h2>
+			<h2>Permanent Contests</h2>
 
 			<div>
 				<table id="inf-con">
 					<thead>
 						<tr>
-							<td width="20%">開始時間</td>
-							<td width="10%">種別</td>
-							<td width="50%">コンテスト名</td>
-							<td width="10%">Reated</td>
-							<td width="10%">長さ</td>
+							<td width="20%">Start</td>
+							<td width="10%">Type</td>
+							<td width="50%">Contest Name</td>
+							<td width="10%">Rated</td>
+							<td width="10%">Period</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -62,17 +62,17 @@ export default async function Page(params: { searchParams: { [key: string]: stri
 				</table>
 			</div>
 
-			<h2>現在開催されているコンテスト</h2>
+			<h2>Active Contests</h2>
 
 			<div>
 				<table id="now-con">
 					<thead>
 						<tr>
-							<td width="20%">開始時間</td>
-							<td width="10%">種別</td>
-							<td width="50%">コンテスト名</td>
-							<td width="10%">Reated</td>
-							<td width="10%">長さ</td>
+							<td width="20%">Start</td>
+							<td width="10%">Type</td>
+							<td width="50%">Contest Name</td>
+							<td width="10%">Rated</td>
+							<td width="10%">Period</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -91,17 +91,17 @@ export default async function Page(params: { searchParams: { [key: string]: stri
 				</table>
 			</div>
 
-			<h2>開催前のコンテスト</h2>
+			<h2>Upcoming Contests</h2>
 
 			<div>
 				<table id="bef-con">
 					<thead>
 						<tr>
-							<td width="20%">開始時間</td>
-							<td width="10%">種別</td>
-							<td width="50%">コンテスト名</td>
-							<td width="10%">Reated</td>
-							<td width="10%">長さ</td>
+							<td width="20%">Start</td>
+							<td width="10%">Type</td>
+							<td width="50%">Contest Name</td>
+							<td width="10%">Rated</td>
+							<td width="10%">Period</td>
 						</tr>
 					</thead>
 					<tbody>
@@ -120,17 +120,17 @@ export default async function Page(params: { searchParams: { [key: string]: stri
 				</table>
 			</div>
 
-			<h2>開催後のコンテスト</h2>
+			<h2>Recent Contests</h2>
 
 			<div>
 				<table id="aft-con">
 					<thead>
 						<tr>
-							<td width="20%">開始時間</td>
-							<td width="10%">種別</td>
-							<td width="50%">コンテスト名</td>
-							<td width="10%">Reated</td>
-							<td width="10%">長さ</td>
+							<td width="20%">Start</td>
+							<td width="10%">Type</td>
+							<td width="50%">Contest Name</td>
+							<td width="10%">Rated</td>
+							<td width="10%">Period</td>
 						</tr>
 					</thead>
 					<tbody>
