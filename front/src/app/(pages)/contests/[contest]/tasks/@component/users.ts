@@ -106,8 +106,7 @@ export async function getUserByToken(sql: Connection, token?: string, ct?: strin
 		const cache = await redis.get(`user:token:${token}:${ct}`);
 
 		if (cache != null) {
-			const data = JSON.parse(cache);
-			resolve(data);
+			resolve(getUser(sql, cache));
 			return;
 		}
 
@@ -125,8 +124,14 @@ export async function getUserByToken(sql: Connection, token?: string, ct?: strin
 
 		const user = await getUser(sql, tokens[0].user);
 
-		redis.set(`user:token:${token}:${ct}`, JSON.stringify(user));
+		if (!user) {
+			resolve(null);
+			return;
+		}
+
+		redis.set(`user:token:${token}:${ct}`, user.id);
 		redis.expire(`user:token:${token}:${ct}`, 60 * 60);
+		redis.set(`user:${user.id}`, JSON.stringify(user));
 		resolve(user);
 	});
 }

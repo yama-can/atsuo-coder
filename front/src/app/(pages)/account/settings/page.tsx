@@ -1,5 +1,5 @@
 import { sql } from "@/app/sql";
-import { getUserByToken } from "../../contests/[contest]/tasks/@component/users";
+import { getUser, getUserByToken } from "../../contests/[contest]/tasks/@component/users";
 import styles from "../form.module.css";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
