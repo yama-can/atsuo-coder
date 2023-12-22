@@ -22,7 +22,8 @@
 		"mathjax": "^3.2.2",
 		"mysql2": "^3.6.1",
 		"next": "^13.4.20-canary.33",
-		"react-jsx-parser": "^1.29.0"
+		"react-jsx-parser": "^1.29.0",
+		"redis": "^4.6.12"
 	},
 	"devDependencies": {
 		"@types/cookie-parser": "^1.4.6",
