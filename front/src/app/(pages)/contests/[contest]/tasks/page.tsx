@@ -17,6 +17,10 @@ export default async function Home(p: { params: { contest: string } }) {
 	if (contestInfo.length == 0) notFound();
 	const tasks = await getTasks(sql, contestInfo[0].problems);
 
+	if (contestInfo[0].start >= Date.now() && !contestInfo[0].editor.includes(user?.id || "undefined") && !contestInfo[0].tester.includes(user?.id || "undefined")) {
+		notFound();
+	}
+
 	if (contestInfo[0].start + contestInfo[0].period > Date.now()) {
 		if (!user) notFound();
 		if (contestInfo[0].editor.indexOf(user!!.id) == -1 && contestInfo[0].tester.indexOf(user!!.id) == -1 && contestInfo[0].rated_users.indexOf(user!!.id) == -1 && contestInfo[0].unrated_users.indexOf(user!!.id) == -1) {

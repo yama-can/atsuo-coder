@@ -4,7 +4,7 @@ import { FieldPacket } from "mysql2";
 import { getUserByToken } from "../tasks/@component/users";
 import { cookies } from "next/headers";
 import { getContest } from "../contests";
-import notFound from "@/app/not-found";
+import { notFound } from "next/navigation";
 
 export default async function Submissions({ params }: { params: { [key: string]: string } }) {
 

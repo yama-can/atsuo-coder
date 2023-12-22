@@ -2,9 +2,9 @@ import { sql } from "@/app/sql";
 import { getContest } from "../contests";
 import { getUserByToken } from "../tasks/@component/users";
 import { cookies } from "next/headers";
-import notFound from "@/app/not-found";
 import styles from "./standings.module.css";
 import { FieldPacket } from "mysql2";
+import { notFound } from "next/navigation";
 
 export default async function Standings({ params: { contest: contestId } }: { params: { contest: string } }) {
 
