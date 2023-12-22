@@ -4,7 +4,6 @@ import { getContest } from "../contests";
 import { notFound } from "next/navigation";
 import { getUserByToken } from './@component/users';
 import { getTasks } from './@component/contests';
-import dynamic from 'next/dynamic';
 
 export default async function Home(p: { params: { contest: string } }) {
 
@@ -31,23 +30,15 @@ export default async function Home(p: { params: { contest: string } }) {
 
 	return (
 		<>
-			<h1>{contestInfo[0].name}</h1>
-			<p>
-				Editor: {contestInfo[0].editor} Tester: {contestInfo[0].tester.length == 0 ? "なし" : contestInfo[0].tester} Rated: {contestInfo[0].rated || "無制限"}<br />
-				開始: {new Date(contestInfo[0].start).toLocaleString("ja")}<br />
-				終了: {new Date(contestInfo[0].start + contestInfo[0].period).toLocaleString("ja")}<br />
-				種別: {contestInfo[0].public ? "公開" : "非公開"}
-			</p>
-
 			{
 				contestInfo[0].editor.indexOf(user?.id || "undefined") != -1 || contestInfo[0].tester.indexOf(user?.id || "undefined") != -1 || contestInfo[0].start <= Date.now() ?
 					<>
-						<h2>問題</h2>
+						<h1>Tasks | AtsuoCoder</h1>
 						<table>
 							<thead>
 								<tr>
-									<td>問題</td>
-									<td>点数</td>
+									<td>TaskName</td>
+									<td>Perfect Score</td>
 									<td>Editor</td>
 								</tr>
 							</thead>
@@ -71,7 +62,9 @@ export default async function Home(p: { params: { contest: string } }) {
 							</tbody>
 						</table>
 					</>
-					: <>
+					:
+					<>
+						<h1>Tasks | AtsuoCoder</h1>
 						<p>コンテストはまだ始まっていません。</p>
 					</>
 			}

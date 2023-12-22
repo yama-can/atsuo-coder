@@ -6,6 +6,7 @@ import { marked } from "marked";
 import parse from 'html-react-parser';
 import { cookies } from "next/headers";
 import { getUserByToken } from "./tasks/@component/users";
+import styles from "./page.module.css";
 
 export default async function Home(p: { params: { contest: string } }) {
 
@@ -27,15 +28,21 @@ export default async function Home(p: { params: { contest: string } }) {
 
 	return (
 		<>
-			<h1>{contestInfo[0].name}</h1>
-			<p>
-				Editor: {contestInfo[0].editor} Tester: {contestInfo[0].tester.length == 0 ? "なし" : contestInfo[0].tester} Rated: {contestInfo[0].rated || "無制限"}<br />
-				開始: {new Date(contestInfo[0].start).toLocaleString("ja")}<br />
-				終了: {new Date(contestInfo[0].start + contestInfo[0].period).toLocaleString("ja")}<br />
-				種別: {contestInfo[0].public ? "公開" : "非公開"}
-			</p>
+			<div className={styles.contest_title}>
+				<h1>{contestInfo[0].name}</h1>
+				<ul>
+					<a href={void(0)} className={styles.rated_button}>Rated登録</a>
+					<a href={void(0)} className={styles.unrated_button}>Unrated登録</a>
+				</ul>
+				<p>
+					Editor: {contestInfo[0].editor} | Tester: {contestInfo[0].tester.length == 0 ? "None" : contestInfo[0].tester}<br />
+					Rated: {contestInfo[0].rated || "無制限"} | Start: {new Date(contestInfo[0].start).toLocaleString("ja")} | End: {new Date(contestInfo[0].start + contestInfo[0].period).toLocaleString("ja")} | Type: {contestInfo[0].public ? "Public" : "Private"}
+				</p>
+			</div>
 
-			<div id="description">
+			<br />
+
+			<div id="description" className={styles.description}>
 				<Mathjax>
 					<div id="description">
 						{parse(marked(contestInfo[0].description))}

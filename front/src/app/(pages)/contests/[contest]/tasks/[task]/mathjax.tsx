@@ -1,6 +1,7 @@
 import { InlineMath, BlockMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
 import React from "react";
+import './mathjax.css';
 
 export const Mathjax: React.FC<{ children: React.ReactNode }> = (props: { children: React.ReactNode }) => {
 	const element = props.children as React.ReactElement;
@@ -27,7 +28,7 @@ export const Mathjax: React.FC<{ children: React.ReactNode }> = (props: { childr
 		return Mathjax({ children: v });
 	}));
 
-	return <>{React.createElement(element.type, { children: res })}</>;
+	return <>{React.createElement(element.type, {}, res)}</>;
 }
 
 export default Mathjax;

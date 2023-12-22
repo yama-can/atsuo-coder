@@ -43,7 +43,7 @@ function baseChild(children: React.ReactNode, user: User | null) {
 					</ul>
 				</div>
 
-				<main className={styles.main}>
+				<main className={`${styles.main} main`}>
 					<div className={styles.center}></div>
 					{children}
 				</main>

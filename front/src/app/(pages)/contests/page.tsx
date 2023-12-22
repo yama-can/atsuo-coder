@@ -47,8 +47,8 @@ export default async function Page(params: { searchParams: { [key: string]: stri
 					</thead>
 					<tbody>
 						{
-							contests.filter((contest) => contest.period == -1).map((contest) => {
-								return <tr>
+							contests.filter((contest) => contest.period == -1).map((contest, i) => {
+								return <tr key={i}>
 									<td>{new Date(contest.start).toLocaleString("ja")}</td>
 									<td>{contest.public ? "公開" : "非公開"}</td>
 									<td><a href={`/contests/${contest.id}`}>{contest.name}</a></td>
@@ -77,8 +77,8 @@ export default async function Page(params: { searchParams: { [key: string]: stri
 					</thead>
 					<tbody>
 						{
-							contests.filter((contest) => contest.start <= Date.now() && contest.start + contest.period >= Date.now()).map((contest) => {
-								return <tr>
+							contests.filter((contest) => contest.start <= Date.now() && contest.start + contest.period >= Date.now()).map((contest, i) => {
+								return <tr key={i}>
 									<td>{new Date(contest.start).toLocaleString("ja")}</td>
 									<td>{contest.public ? "公開" : "非公開"}</td>
 									<td><a href={`/contests/${contest.id}`}>{contest.name}</a></td>
@@ -106,8 +106,8 @@ export default async function Page(params: { searchParams: { [key: string]: stri
 					</thead>
 					<tbody>
 						{
-							contests.filter((contest) => contest.start > Date.now()).map((contest) => {
-								return <tr>
+							contests.filter((contest) => contest.start > Date.now()).map((contest, i) => {
+								return <tr key={i}>
 									<td>{new Date(contest.start).toLocaleString("ja")}</td>
 									<td>{contest.public ? "公開" : "非公開"}</td>
 									<td><a href={`/contests/${contest.id}`}>{contest.name}</a></td>
@@ -135,8 +135,8 @@ export default async function Page(params: { searchParams: { [key: string]: stri
 					</thead>
 					<tbody>
 						{
-							contests.filter((contest) => contest.start + contest.period < Date.now()).map((contest) => {
-								return <tr>
+							contests.filter((contest) => contest.start + contest.period < Date.now()).map((contest, i) => {
+								return <tr key={i}>
 									<td>{new Date(contest.start).toLocaleString("ja")}</td>
 									<td>{contest.public ? "公開" : "非公開"}</td>
 									<td><a href={`/contests/${contest.id}`}>{contest.name}</a></td>

@@ -31,7 +31,7 @@ export default async function Ranking() {
 				<tbody id="data">
 					{
 						result.map((user, i) =>
-							<tr>
+							<tr key={i}>
 								<td>{i + 1}</td>
 								<td>{user.id}</td>
 								<td>{user.rating}</td>

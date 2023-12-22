@@ -56,7 +56,7 @@ export default async function Submissions({ params }: { params: { [key: string]:
 					{
 						submissions.map((submission, i) => {
 							const result = submission.judge == "WJ" ? "WJ" : JSON.parse(submission.judge).status == 3 ? "CE" : resultStrings[JSON.parse(submission.judge)[0][0]];
-							return <tr>
+							return <tr key={i}>
 								<td>{submissions.length - i}</td>
 								<td>{submission.created_at.toLocaleString("ja")}</td>
 								<td>{submission.user}</td>

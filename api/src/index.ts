@@ -6,9 +6,9 @@ import path from "path";
 import mysql, { RowDataPacket } from "mysql2/promise";
 import JudgeServer from "./judge/judge";
 import { JudgeOptions, Testcases } from "@w-yama-can/judge-systems";
-config();
+config({ path: path.join(__dirname, "./../../.env") });
 
-const front = next({ dir: "../front", dev: (process.argv.indexOf("--dev") != -1) || Boolean(process.env.dev) });
+const front = next({ dir: "../front", dev: process.argv.indexOf("--dev") != -1 });
 
 let testcases: {
 	[id: string]: {

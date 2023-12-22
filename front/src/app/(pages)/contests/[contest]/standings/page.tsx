@@ -6,7 +6,7 @@ import notFound from "@/app/not-found";
 import styles from "./standings.module.css";
 import { FieldPacket } from "mysql2";
 
-export default async function ({ params: { contest: contestId } }: { params: { contest: string } }) {
+export default async function Standings({ params: { contest: contestId } }: { params: { contest: string } }) {
 
 	const cookie = cookies();
 	const user = (!cookie.has("cc") && !cookie.has("ct") ? null : await getUserByToken(sql, cookie.get("cc")!!.value, cookie.get("ct")!!.value));
@@ -45,7 +45,7 @@ export default async function ({ params: { contest: contestId } }: { params: { c
 						{
 							contest[0].problems.map((problem, i) => {
 								return (
-									<td key={i}>{problem}</td>
+									<td key={i}><a href={`/contests/${contestId}/tasks/${problem}`}>{problem}</a></td>
 								)
 							})
 						}

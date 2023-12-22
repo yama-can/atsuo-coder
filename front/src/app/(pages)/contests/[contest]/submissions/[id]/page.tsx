@@ -91,7 +91,7 @@ export default async function Home(params: { params: { [key: string]: string } }
 										}
 									});
 									results.sort();
-									return <tr>
+									return <tr key={i}>
 										<td>{i + 1}</td>
 										<td>
 											<div className={submissionsStyle[`c-${resultStrings[v[0]].toLowerCase()}`]}>
@@ -101,15 +101,13 @@ export default async function Home(params: { params: { [key: string]: string } }
 										<td>{v[1]} points</td>
 										<td>
 											{
-												results.map((result) => {
+												results.map((result, i) => {
 													return (
-														<>
-															<span className={submissionsStyle.detailResult}>
-																<div className={submissionsStyle[`c-${resultStrings[result].toLowerCase()}`]}>
-																	{resultStrings[result]}
-																</div> × {judgeDetails[result]}
-															</span>
-														</>
+														<span key={i} className={submissionsStyle.detailResult}>
+															<div className={submissionsStyle[`c-${resultStrings[result].toLowerCase()}`]}>
+																{resultStrings[result]}
+															</div> × {judgeDetails[result]}
+														</span>
 													)
 												})
 											}

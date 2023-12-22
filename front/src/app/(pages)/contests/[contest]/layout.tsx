@@ -1,4 +1,5 @@
-import styles from "./main.module.css";
+import "./layout.css";
+import styles from "./layout.module.css";
 
 export default function RootLayout({
 	children,
@@ -9,13 +10,51 @@ export default function RootLayout({
 }) {
 	return (
 		<>
-			<div className={styles.links}>
-				<a href={`/contests/${params.contest}`}>Contest Top</a>
-				<a href={`/contests/${params.contest}/tasks`}>Tasks</a>
-				<a href={`/contests/${params.contest}/standings`}>Standings</a>
-				<a href={`/contests/${params.contest}/submissions`}>Submissions</a>
-			</div>
 			{children}
+			<div className={styles.contest}>
+				<div className={styles.tab}>
+					<ul>
+						<div className="pagenow">
+							<a href={`/contests/${params.contest}`}>
+								<li>
+									<span className={styles["material-icons"]}>home</span>
+									<br />
+									Top
+								</li>
+							</a>
+						</div>
+
+						<a href={`/contests/${params.contest}/tasks`}>
+							<li>
+								<span className={styles["material-icons"]}>
+									task
+								</span>
+								<br />
+								Tasks
+							</li>
+						</a>
+						<a href={`/contests/${params.contest}/standings`}>
+							<li>
+								<span className={styles["material-icons"]}>
+									leaderboard
+								</span>
+								<br />
+								Standings
+							</li>
+						</a>
+						<a href={`/contests/${params.contest}/submissions`}>
+							<li>
+								<span className={styles["material-icons"]}>
+									send
+								</span>
+								<br />
+								Submittions
+							</li>
+						</a>
+					</ul>
+				</div>
+			</div>
+			<div data-center="none"></div>
 		</>
 	)
 }
