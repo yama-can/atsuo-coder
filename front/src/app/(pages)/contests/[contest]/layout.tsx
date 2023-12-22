@@ -1,5 +1,7 @@
+import { cookies } from "next/headers";
 import "./layout.css";
 import styles from "./layout.module.css";
+import { NextResponse } from "next/server";
 
 export default function RootLayout({
 	children,
