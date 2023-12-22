@@ -31,7 +31,10 @@ function baseChild(children: React.ReactNode, user: User | null) {
 									user == null ?
 										<><li><a href="/login">Login</a></li>
 											<li className={headerStyles.signup}><a href="/signup">Sign Up</a></li></> :
-										<li><a href="/logout" className={headerStyles.signup}>Logout</a></li>
+										<>
+											<li><a href="/logout">Logout</a></li>
+											<li><a href="/account/settings" className={headerStyles.signup}>Account Settings</a></li>
+										</>
 								}
 							</ul>
 						</ul>
@@ -59,6 +62,6 @@ export default async function RootLayout({
 
 	const cookie = cookies();
 	const user = await getUserByToken(sql, cookie.get("cc")?.value, cookie.get("ct")?.value);
-	
+
 	return (baseChild(children, user));
 }
