@@ -1,6 +1,10 @@
+.root {
+	--var-width: 950px;
+}
+
 .reader {
 	border: none;
-	width: 100%;
+	width: var(--var-width);
 	height: 32rem;
 }
 
@@ -80,4 +84,16 @@ div.onlyme label {
 
 .detailResult {
 	margin: 0 0.4rem;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	width: var(--var-width);
+}
+
+.grid>div {
+	padding: 0.5rem;
+	text-align: center;
+	border: 1px solid white;
 }

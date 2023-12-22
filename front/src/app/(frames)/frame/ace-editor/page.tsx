@@ -24,25 +24,17 @@ export default function Home(params: { searchParams: { [key: string]: string } }
 		if ("once" in global) return;
 		(global as any).once = true;
 
-		if (params.searchParams.readonly) {
-			editorRef.current!!.editor.setReadOnly(true);
-			console.debug("Readonly mode");
-		}
-
-		window.addEventListener("message", (data) => {
-			if (data.data.type == "get") {
-				window.parent.postMessage({ res: "get", value: editorRef.current?.editor.getValue() });
-			} else if (data.data.type == "set") {
-				editorRef.current?.editor.setValue(data.data.value);
-				window.parent.postMessage({ res: "set" });
-			}
-		})
-
 	});
 
 	function onLoad(editor: Ace.Editor) {
+
 		if (params.searchParams.sourceCode) {
-			editorRef.current?.editor.setValue(params.searchParams.sourceCode);
+			editor.setValue(params.searchParams.sourceCode);
+		}
+
+		if (params.searchParams.readonly) {
+			editor.setReadOnly(true);
+			console.debug("Readonly mode");
 		}
 
 		editor.setOptions({
@@ -50,6 +42,16 @@ export default function Home(params: { searchParams: { [key: string]: string } }
 			copyWithEmptySelection: true,
 		});
 		editor.setFontSize(16);
+
+		window.addEventListener("message", (data) => {
+			if (data.data.type == "get") {
+				window.parent.postMessage({ res: "get", value: editor.getValue() });
+			} else if (data.data.type == "set") {
+				editor.setValue(data.data.value);
+				window.parent.postMessage({ res: "set" });
+			}
+		})
+
 	}
 
 	return (<AceEditor

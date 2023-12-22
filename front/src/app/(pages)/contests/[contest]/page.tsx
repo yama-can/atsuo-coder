@@ -27,15 +27,23 @@ export default async function Home(p: { params: { contest: string } }) {
 		ssr: false
 	});
 
+	const sqlResult = (await sql.query("SELECT rated_users, unrated_users FROM contests WHERE id = ?", [p.params.contest]) as any)[0][0] as { rated_users: string, unrated_users: string };
+	const rated_users = JSON.parse(sqlResult.rated_users);
+	const unrated_users = JSON.parse(sqlResult.unrated_users);
+
+	const isRated = user ? rated_users.includes(user.id) : false;
+	const isUnrated = user ? unrated_users.includes(user.id) : false;
+
 	return (
 		<>
 
 			<div className={styles.contest_title}>
 				<h1>{contestInfo[0].name}</h1>
-				{!user ? <></> :
+				{!user || contestInfo[0].start <= Date.now() ? <></> :
 					<ul>
-						<a href={`/contests/${p.params.contest}/register/rated`} className={styles.rated_button}>Rated登録</a>
-						<a href={`/contests/${p.params.contest}/register/unrated`} className={styles.unrated_button}>Unrated登録</a>
+						{isRated ? <></> : <a href={`/contests/${p.params.contest}/register/rated`} className={styles.rated_button}>{isUnrated ? "Rated登録に変更" : "Rated登録"}</a>}
+						{isUnrated ? <></> : <a href={`/contests/${p.params.contest}/register/unrated`} className={styles.unrated_button}>{isRated ? "Unrated登録に変更" : "Unrated登録"}</a>}
+						{isRated || isUnrated ? <a href={`/contests/${p.params.contest}/register/cancel`} className={styles.cancel_button}>登録解除</a> : <></>}
 					</ul>
 				}
 				<p>
