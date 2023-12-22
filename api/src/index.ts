@@ -99,23 +99,25 @@ front.prepare().then(async () => {
 		if (p.name.startsWith('@')) continue;
 		if (fs.statSync(path.join(__dirname, "./routes", files[i])).isFile()) {
 			if (files[i] == 'index.js' || files[i].endsWith('/index.js')) {
-				console.log(`Loaded ${path.join(__dirname, "./routes", files[i])} as ${path.join("/", files[i], '../')}`);
 				const input = (await import(path.join(__dirname, "./routes", files[i])));
 				app.use(path.join("/", files[i], '../'), input.default(sql, judgeServer));
+				console.log(`Loaded ${path.join(__dirname, "./routes", files[i])} as ${path.join("/", files[i], '../')}`);
 			} else {
-				console.log(`Loaded ${path.join(__dirname, "./routes", files[i])} as ${path.join("/", files[i].replace(/\.js$/, ""))}`);
 				const input = (await import(path.join(__dirname, "./routes", files[i])));
 				app.use(path.join("/", files[i].replace(/\.js$/, "")), input.default(sql, judgeServer));
+				console.log(`Loaded ${path.join(__dirname, "./routes", files[i])} as ${path.join("/", files[i].replace(/\.js$/, ""))}`);
 			}
 		} else {
 			files.push(...fs.readdirSync(path.join(__dirname, "./routes", files[i])).map((file) => path.join(files[i], file)));
 		}
 	}
 
+	console.log("All files loaded");
+
 	app.all("*", (req, res) => frontHandler(req, res));
 
 	http.createServer((rep, res) => res.writeHead(301, { Location: `https://${rep.headers.host}${rep.url}` }).end()).listen(80);
-	https.createServer({ cert: fs.readFileSync(path.join(__dirname, "./../../certs/cert.pem")), key: fs.readFileSync(path.join(__dirname, "./../../certs/key.pem")) }, app).listen(443, "0.0.0.0");
+	https.createServer({ cert: fs.readFileSync(path.join(__dirname, "./../../certs/cert.pem")), key: fs.readFileSync(path.join(__dirname, "./../../certs/key.pem")) }, app).listen(443, "0.0.0.0")
 });
 
 type Router = ((sql: mysql.Connection) => express.Router);
