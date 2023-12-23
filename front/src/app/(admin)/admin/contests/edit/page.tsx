@@ -76,7 +76,7 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 							</ul>
 						</label>
 						<br />
-						<input type="submit" defaultValue="Create" />
+						<input type="submit" defaultValue="Edit" />
 					</form>
 				</div>
 			</>
