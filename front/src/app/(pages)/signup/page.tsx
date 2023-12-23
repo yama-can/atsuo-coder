@@ -133,9 +133,9 @@ export default function Signup() {
 					<br />
 					<label htmlFor="name">Name</label>
 					<br />
-					<input name="name1" id="name1" type="text" autoCorrect="off" placeholder="Last Name" required />
+					<input name="name1" id="name1" type="text" autoCorrect="off" placeholder="First Name" required />
 					<input name="name2" id="name2" type="text" autoCorrect="off" placeholder="Middle Name" />
-					<input name="name3" id="name3" type="text" autoCorrect="off" placeholder="First Name" required />
+					<input name="name3" id="name3" type="text" autoCorrect="off" placeholder="Last Name" required />
 					<input type="submit" id="submit" value="Submit" autoComplete="off" disabled />
 				</form>
 			</div>

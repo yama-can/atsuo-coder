@@ -49,11 +49,11 @@ export default async function SettingPage({ searchParams }: { searchParams: { er
 					<br />
 					<label htmlFor="name">Name</label>
 					<br />
-					<input name="name1" id="name1" type="text" autoComplete="on" placeholder="Last Name" required defaultValue={user.name[0]} />
+					<input name="name1" id="name1" type="text" autoComplete="on" placeholder="First Name" required defaultValue={user.name[0]} />
 					<br />
 					<input name="name2" id="name2" type="text" autoComplete="on" placeholder="Middle Name" defaultValue={user.name.length == 2 ? "" : user.name[1]} />
 					<br />
-					<input name="name3" id="name3" type="text" autoComplete="on" placeholder="First Name" required defaultValue={user.name.length == 3 ? user.name[2] : user.name[1]} />
+					<input name="name3" id="name3" type="text" autoComplete="on" placeholder="Last Name" required defaultValue={user.name.length == 3 ? user.name[2] : user.name[1]} />
 					<br />
 					<input type="submit" defaultValue="Save changes" />
 				</form>
