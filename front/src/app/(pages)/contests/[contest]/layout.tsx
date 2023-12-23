@@ -22,6 +22,10 @@ export default async function RootLayout({
 
 	const contestInfo = await getContest(sql, params.contest, user?.id);
 
+	if (contestInfo.length == 0) {
+		return <>Not found</>
+	}
+
 	let viewable = true;
 
 	if (contestInfo[0].start + contestInfo[0].period > Date.now()) {
