@@ -56,3 +56,14 @@
 	-webkit-appearance: none;
 	margin: 0;
 }
+
+.body1 .delete {
+	background-color: red;
+	color: white;
+}
+
+.body1 .check {
+	margin: 0 10px;
+	text-align: right;
+	width: initial;
+}
