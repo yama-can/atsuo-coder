@@ -22,7 +22,7 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 				<br />
 				<div className={styles.body1}>
 					<form action="/admin/contests/post" method="post">
-						<input type="hidden" name="type" defaultValue="new" />
+						<input type="hidden" name="type" defaultValue="edit" />
 						<label htmlFor="name">Name</label>
 						<br />
 						<input name="name" id="name" type="text" autoComplete="on" placeholder="AtsuoCoder Algorithm Contest 001" required defaultValue={contest.name} />
