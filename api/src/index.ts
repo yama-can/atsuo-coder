@@ -117,7 +117,7 @@ front.prepare().then(async () => {
 	app.all("*", (req, res) => frontHandler(req, res));
 
 	http.createServer((rep, res) => res.writeHead(301, { Location: `https://${rep.headers.host}${rep.url}` }).end()).listen(80);
-	https.createServer({ cert: fs.readFileSync(path.join(__dirname, "./../../certs/cert.pem")), key: fs.readFileSync(path.join(__dirname, "./../../certs/key.pem")) }, app).listen(443, "0.0.0.0")
+	https.createServer({ cert: fs.readFileSync(path.join(__dirname, "./../../certs/cert.pem")), key: fs.readFileSync(path.join(__dirname, "./../../certs/key.pem")) }, app).listen(process.env.port ? Number(process.env.port) :443, "0.0.0.0")
 });
 
 type Router = ((sql: mysql.Connection) => express.Router);

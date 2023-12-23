@@ -43,7 +43,8 @@ export async function getTask(sql: Connection, id: string) {
 			})
 		);
 
-		await redis.set(`task:${id}`, JSON.stringify(res));
+		if (res.length != 0)
+			await redis.set(`task:${id}`, JSON.stringify(res));
 		resolve(res);
 
 	})

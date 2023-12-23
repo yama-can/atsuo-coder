@@ -120,7 +120,8 @@ code::before {
 	content: "\"";
 }
 
-input {
+input,
+textarea {
 	width: 440px;
 	margin-bottom: 20px;
 	padding: 8px 10px;
@@ -148,7 +149,8 @@ input[type="submit"] {
 	color: white;
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
 	color: #C0C0C0;
 }
 
@@ -181,4 +183,8 @@ li {
 
 header {
 	z-index: 100;
+}
+
+textarea {
+	height: 300px;
 }
