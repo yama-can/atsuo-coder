@@ -7,7 +7,6 @@ import { cookies } from 'next/headers'
 import React, { use, useEffect } from 'react';
 import { User, getUserByToken } from './contests/[contest]/tasks/@component/users'
 import { sql } from '../sql'
-import notFound from '../not-found'
 
 const inter = Inter({ subsets: ['latin'] })
 
