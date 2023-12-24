@@ -47,6 +47,10 @@ export default async function AdminContestsNew() {
 					<br />
 					<input name="tester" id="tester" type="text" required placeholder="yama_can, abn48" />
 					<br />
+					<label htmlFor="description">Description</label>
+					<br />
+					<textarea name="description" id="description" placeholder="This contest is ..." required />
+					<br />
 					<input type="submit" defaultValue="Create" />
 				</form>
 			</div>

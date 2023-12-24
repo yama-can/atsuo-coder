@@ -3,6 +3,7 @@ import redis from "@/app/redis";
 import { sql } from "@/app/sql";
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
+import fs from "fs";
 
 export async function POST(req: NextRequest) {
 	const data = await req.formData();
@@ -30,6 +31,8 @@ export async function POST(req: NextRequest) {
 		}
 
 		await sql.query("INSERT INTO tasks (name, id, question, editor, tester, score) VALUES (?, ?, ?, ?, ?, ?)", [data.get("name"), data.get("id"), data.get("question"), parseFunc(data.get("editor") as string), parseFunc(data.get("tester") as string), 0]);
+		fs.mkdirSync(`./static/testcases/${data.get("id")}`);
+		fs.writeFileSync(`./static/testcases/${data.get("id")}/dependencies.json`, "");
 		return new Response("301", { status: 301, headers: { location: `/admin/tasks` } });
 	} else if (data.get("type") == "edit") {
 		if (typeof data.get("editor") != "string" || typeof data.get("tester") != "string" || typeof data.get("id") != "string") {
@@ -50,6 +53,7 @@ export async function POST(req: NextRequest) {
 
 		await sql.query("DELETE FROM tasks WHERE id = ?", [data.get("id")]);
 		await redis.del(`task:${data.get("id")}`);
+		fs.rmSync(`./static/testcases/${data.get("id")}`, { recursive: true });
 		return new Response("301", { status: 301, headers: { location: `/admin/tasks` } });
 	} else {
 		return new Response("Bad Request", {

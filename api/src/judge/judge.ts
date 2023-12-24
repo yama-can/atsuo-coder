@@ -10,7 +10,7 @@ export default class JudgeServer {
 
 	private judging: { [id: string]: Judge } = {};
 
-	private readonly problems: {
+	public readonly problems: {
 		[id: string]: {
 			testcases: Testcases, options: {
 				timeLimit?: number;

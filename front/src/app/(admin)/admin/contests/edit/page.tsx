@@ -8,7 +8,6 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 	if (searchParams.id) {
 
 		const contests = await getContest(sql, searchParams.id);
-
 		if (contests.length == 0) {
 			notFound();
 		}
@@ -37,13 +36,13 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 						<input name="start" id="start" type="datetime-local" required defaultValue={new Date(contest.start).toISOString().slice(0, 16)} />
 						<br />
 						<label htmlFor="period">Period</label>
+						<p>If this contest should be permanent contest, set this field "-1".</p>
 						<br />
 						<input name="period" id="period" type="number" required className={styles.period} placeholder="100" defaultValue={contest.period} />
 						<label htmlFor="period">minutes</label>
 						<br />
 						<label htmlFor="penalty">Penalty</label>
 						<br />
-						<p>If this contest should be permanent contest, set this field "-1".</p>
 						<input name="penalty" id="penalty" type="number" required className={styles.period} placeholder="5" />
 						<label htmlFor="penalty">minutes</label>
 						<br />
@@ -76,6 +75,10 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 								<li> Warning: we will not warn if this field includes invalid username.</li>
 							</ul>
 						</label>
+						<br />
+						<label htmlFor="description">Description</label>
+						<br />
+						<textarea name="description" id="description" placeholder="This contest is ..." required />
 						<br />
 						<input type="submit" defaultValue="Edit" />
 					</form>

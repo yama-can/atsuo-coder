@@ -43,11 +43,7 @@ export async function getContest(sql: Connection, id: string, userId?: string) {
 		const cache = await redis.get(`contest:${id}`);
 		if (cache != null) {
 			const data = JSON.parse(cache);
-			if (data[0].public || Array.from(data[0].editor).indexOf(userId) != -1 || Array.from(data[0].tester).indexOf(userId) != -1) {
-				resolve(data);
-			} else {
-				resolve([]);
-			}
+			resolve(data);
 			return;
 		}
 

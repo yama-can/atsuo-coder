@@ -53,6 +53,13 @@ export default async function RootLayout({
 									Submissions
 								</li>
 							</a>
+							<a href="/admin/testcases">
+								<li>
+									<span className={styles["material-icons"]}>quiz</span>
+									<br />
+									Testcases
+								</li>
+							</a>
 							<a href="/admin/users">
 								<li>
 									<span className={styles["material-icons"]}>group</span>

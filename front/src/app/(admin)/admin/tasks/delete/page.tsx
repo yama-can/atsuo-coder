@@ -12,10 +12,12 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 		if (tasks.length == 0) {
 			notFound();
 		}
+
+		
 		
 		return (
 			<>
-				<h1>Delete Contest | AtsuoCoder Admin</h1>
+				<h1>Delete Task | AtsuoCoder Admin</h1>
 				<p>Deleting {searchParams.id}</p>
 				<br />
 				<div className={styles.body1}>
@@ -38,7 +40,7 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 
 	return (
 		<>
-			<h1>Delete Contest | AtsuoCoder Admin</h1>
+			<h1>Delete Task | AtsuoCoder Admin</h1>
 			<div className={styles.body1}>
 				<form action="/admin/tasks/delete" method="get">
 					<label htmlFor="id">ID</label>

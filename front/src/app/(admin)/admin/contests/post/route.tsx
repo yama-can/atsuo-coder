@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
 			});
 		}
 
-		await sql.query("INSERT INTO contests (name, id, start, period, problems, editor, tester, rated_users, unrated_users, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [data.get("name"), data.get("id"), data.get("start"), data.get("period"), parseFunc(data.get("problems") as string), parseFunc(data.get("editor") as string), parseFunc(data.get("tester") as string), "[]", "[]", ""]);
+		await sql.query("INSERT INTO contests (name, id, start, period, problems, editor, tester, rated_users, unrated_users, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [data.get("name"), data.get("id"), data.get("start"), data.get("period"), parseFunc(data.get("problems") as string), parseFunc(data.get("editor") as string), parseFunc(data.get("tester") as string), "[]", "[]", data.get("description")]);
 		return new Response("301", { status: 301, headers: { location: `/contests/${data.get("id")}` } });
 	} else if (data.get("type") == "edit") {
 		if (typeof data.get("problems") != "string" || typeof data.get("editor") != "string" || typeof data.get("tester") != "string" || typeof data.get("id") != "string") {
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 			});
 		}
 
-		await sql.query("UPDATE contests SET name = ?, start = ?, period = ?, problems = ?, editor = ?, tester = ? WHERE id = ?", [data.get("name"), data.get("start"), data.get("period"), parseFunc(data.get("problems") as string), parseFunc(data.get("editor") as string), parseFunc(data.get("tester") as string), data.get("id")]);
+		await sql.query("UPDATE contests SET name = ?, start = ?, period = ?, problems = ?, editor = ?, tester = ?, description = ? WHERE id = ?", [data.get("name"), data.get("start"), data.get("period"), parseFunc(data.get("problems") as string), parseFunc(data.get("editor") as string), parseFunc(data.get("tester") as string), data.get("description"), data.get("id")]);
 		await redis.del(`contest:${data.get("id")}`);
 		return new Response("301", { status: 301, headers: { location: `/contests/${data.get("id")}` } });
 	} else if (data.get("type") == "delete") {
