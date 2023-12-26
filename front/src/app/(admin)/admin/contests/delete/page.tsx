@@ -25,7 +25,7 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 						<p>Are you sure to delete this contest <code>{searchParams.id}</code>?</p>
 						<br />
 						<input name="check" id="check" type="checkbox" required className={styles.check} />
-						<label htmlFor="check">Yes, I'm sure.</label>
+						<label htmlFor="check">Yes, I&apos;m sure.</label>
 						<br />
 						<p>Even if you delete the contest, it will remain in the cache for a while.</p>
 						<br />

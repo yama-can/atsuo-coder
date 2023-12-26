@@ -36,7 +36,7 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 						<input name="start" id="start" type="datetime-local" required defaultValue={new Date(contest.start).toISOString().slice(0, 16)} />
 						<br />
 						<label htmlFor="period">Period</label>
-						<p>If this contest should be permanent contest, set this field "-1".</p>
+						<p>If this contest should be permanent contest, set this field &quot;-1&quot;.</p>
 						<br />
 						<input name="period" id="period" type="number" required className={styles.period} placeholder="100" defaultValue={contest.period} />
 						<label htmlFor="period">minutes</label>

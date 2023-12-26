@@ -37,7 +37,7 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 						<p>Are you sure to delete this testcase <code>{searchParams.task_id}/{searchParams.id}</code>?</p>
 						<br />
 						<input name="check" id="check" type="checkbox" required className={styles.check} />
-						<label htmlFor="check">Yes, I'm sure.</label>
+						<label htmlFor="check">Yes, I&apos;m sure.</label>
 						<br />
 						<input type="submit" defaultValue="Delete" className={styles.delete} />
 					</form>
