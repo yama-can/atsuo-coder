@@ -23,15 +23,17 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 				<h1>Delete Testcase | AtsuoCoder Admin</h1>
 				<br />
 				<div className={styles.body1}>
-					<form action="/admin/testcases/post" method="post">
+					<form action="/admin/testcases/post" method="post" encType="multipart/form-data">
 						<input type="hidden" name="type" defaultValue="delete" />
 						<label htmlFor="task_id">Task ID</label>
 						<br />
-						<input name="task_id" id="task_id" type="text" autoComplete="on" placeholder="aac001_a" required defaultValue={searchParams.task_id} disabled />
+						<input name="task_id" type="hidden" defaultValue={searchParams.task_id} />
+						<input id="task_id" type="text" autoComplete="on" placeholder="aac001_a" required defaultValue={searchParams.task_id} disabled />
 						<br />
 						<label htmlFor="id">ID</label>
 						<br />
-						<input type="text" id="id" name="id" defaultValue={searchParams.id} disabled />
+						<input type="hidden" name="id" defaultValue={searchParams.id} />
+						<input type="text" id="id" defaultValue={searchParams.id} disabled />
 						<p>Are you sure to delete this testcase <code>{searchParams.task_id}/{searchParams.id}</code>?</p>
 						<br />
 						<input name="check" id="check" type="checkbox" required className={styles.check} />

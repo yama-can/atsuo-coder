@@ -1,5 +1,5 @@
 import { getUserByToken } from "@/app/(pages)/contests/[contest]/tasks/@component/users";
-import redis from "@/app/redis";
+import http from "http";
 import { sql } from "@/app/sql";
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
@@ -16,7 +16,6 @@ export async function POST(req: NextRequest) {
 	}
 
 	if (!data.has("type") || typeof data.get("task_id") != "string") {
-		console.log(data.get("type"), data.get("task_id"));
 		return new Response("Bad Request", {
 			status: 400
 		});
@@ -38,6 +37,8 @@ export async function POST(req: NextRequest) {
 			fs.writeFileSync(`./static/testcases/${data.get("task_id")}/${data.get("id")}/${output.name}/config.json`, JSON.stringify({ type: "plane", score: i == 0 ? Number(data.get("score")) : 0 }));
 		}
 
+		await new Promise<void>(resolve => http.get(`http://localhost:9834/testcases/${data.get("task_id")}/reload`, (res) => { resolve() }));
+
 		return new Response("301", { status: 301, headers: { location: `/admin/testcases` } });
 	} else if (data.get("type") == "edit") {
 		fs.rmSync(`./static/testcases/${data.get("task_id")}/${data.get("id")}`, { recursive: true });
@@ -53,7 +54,9 @@ export async function POST(req: NextRequest) {
 			fs.writeFileSync(`./static/testcases/${data.get("task_id")}/${data.get("id")}/${output.name}/out.txt`, await output.text());
 			fs.writeFileSync(`./static/testcases/${data.get("task_id")}/${data.get("id")}/${output.name}/config.json`, JSON.stringify({ type: "plane", score: i == 0 ? Number(data.get("score")) : 0 }));
 		}
-		
+
+		await new Promise<void>(resolve => http.get(`http://localhost:9834/testcases/${data.get("task_id")}/reload`, (res) => { resolve() }));
+
 		return new Response("301", { status: 301, headers: { location: `/admin/tasks` } });
 	} else if (data.get("type") == "delete") {
 		fs.rmSync(`./static/testcases/${data.get("task_id")}/${data.get("id")}`, { recursive: true });

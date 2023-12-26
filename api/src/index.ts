@@ -8,20 +8,10 @@ import JudgeServer from "./judge/judge";
 import { Testcases } from "@w-yama-can/judge-systems";
 import http from "http";
 import https from "https";
+import getInnerAPI from "./innerAPI";
 config({ path: path.join(__dirname, "./../../.env") });
 
 const front = next({ dir: "../front", dev: process.argv.indexOf("--dev") != -1 });
-
-let testcases: {
-	[id: string]: {
-		testcases: Testcases, options: {
-			timeLimit?: number;
-			memoryLimit?: number;
-			outputLimit?: number;
-		}
-	}
-} = {};
-
 
 front.prepare().then(async () => {
 
@@ -35,14 +25,13 @@ front.prepare().then(async () => {
 	});
 
 	const tasks = (await sql.query("SELECT id, judge_type FROM tasks;"))[0] as RowDataPacket[];
+	const judgeServer = new JudgeServer({});
 
-	tasks.forEach((task) => {
-
-		const { id, judge_type } = task as { id: string, judge_type: string };
+	function loadTestcases(id: string) {
 
 		const testcaseDirs = fs.readdirSync(path.join("./static/testcases", id));
 
-		testcases[id] = { testcases: [], options: {} };
+		judgeServer.problems[id] = { testcases: [], options: {} };
 
 		testcaseDirs.forEach(testcase => {
 
@@ -50,7 +39,7 @@ front.prepare().then(async () => {
 
 			const dependencies = JSON.parse(fs.readFileSync(path.join("./static/testcases", id, testcase, "dependencies.json"), 'utf-8'));
 
-			testcases[id].testcases.push({ id: testcase, tests: [], dependencies });
+			judgeServer.problems[id].testcases.push({ id: testcase, tests: [], dependencies });
 
 			tests.forEach(test => {
 
@@ -60,24 +49,31 @@ front.prepare().then(async () => {
 
 				if (type == "plane") {
 
-					testcases[id].testcases[testcases[id].testcases.length - 1].tests.push({ id: test, input: path.join("./static/testcases", id, testcase, test, "in.txt"), output: path.join("./static/testcases", id, testcase, test, "out.txt"), score });
+					judgeServer.problems[id].testcases[judgeServer.problems[id].testcases.length - 1].tests.push({ id: test, input: path.join("./static/testcases", id, testcase, test, "in.txt"), output: path.join("./static/testcases", id, testcase, test, "out.txt"), score });
 
 				} else if (type == "outcheck") {
 
-					testcases[id].testcases[testcases[id].testcases.length - 1].tests.push({ id: test, input: path.join("./static/testcases", id, testcase, test, "in.txt"), check: path.join("./static/testcases", id, testcase, test, outcheck), score });
+					judgeServer.problems[id].testcases[judgeServer.problems[id].testcases.length - 1].tests.push({ id: test, input: path.join("./static/testcases", id, testcase, test, "in.txt"), check: path.join("./static/testcases", id, testcase, test, outcheck), score });
 
 				} else if (type == "interactive") {
 
-					testcases[id].testcases[testcases[id].testcases.length - 1].tests.push({ id: test, interactive: path.join("./static/testcases", id, testcase, test, interactive) });
+					judgeServer.problems[id].testcases[judgeServer.problems[id].testcases.length - 1].tests.push({ id: test, interactive: path.join("./static/testcases", id, testcase, test, interactive) });
 
 				}
 
 			});
 
 		});
+	}
+
+	tasks.forEach((task) => {
+
+		const { id } = task as { id: string };
+
+		loadTestcases(id);
+
 	});
 
-	const judgeServer = new JudgeServer(testcases);
 	// judgeServer.addQueue(sql, "test");
 	setInterval(() => {
 		judgeServer.updateQueue(sql);
@@ -116,8 +112,10 @@ front.prepare().then(async () => {
 
 	app.all("*", (req, res) => frontHandler(req, res));
 
+	(await getInnerAPI(judgeServer, loadTestcases)).listen(9834, "localhost");
+
 	http.createServer((rep, res) => res.writeHead(301, { Location: `https://${rep.headers.host}${rep.url}` }).end()).listen(80);
-	https.createServer({ cert: fs.readFileSync(path.join(__dirname, "./../../certs/cert.pem")), key: fs.readFileSync(path.join(__dirname, "./../../certs/key.pem")) }, app).listen(process.env.port ? Number(process.env.port) :443, "0.0.0.0")
+	https.createServer({ cert: fs.readFileSync(path.join(__dirname, "./../../certs/cert.pem")), key: fs.readFileSync(path.join(__dirname, "./../../certs/key.pem")) }, app).listen(process.env.port ? Number(process.env.port) : 443, "0.0.0.0")
 });
 
 type Router = ((sql: mysql.Connection) => express.Router);

@@ -17,9 +17,9 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 				<div className={styles.body1}>
 					<form action="/admin/testcases/post" method="post" encType="multipart/form-data">
 						<input type="hidden" name="type" defaultValue="new" />
-						<input type="hidden" name="task_id" defaultValue={searchParams.id} />
 						<label htmlFor="task_id">Task ID</label>
 						<br />
+						<input type="hidden" name="task_id" defaultValue={searchParams.id} />
 						<input type="text" autoComplete="on" placeholder="aac001_a" required defaultValue={searchParams.id} disabled />
 						<br />
 						<label htmlFor="id">ID</label>

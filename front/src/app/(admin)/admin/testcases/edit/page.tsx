@@ -25,15 +25,21 @@ export default async function AdminContestsNew({ searchParams }: { searchParams:
 				<h1>Edit Testcase | AtsuoCoder Admin</h1>
 				<br />
 				<div className={styles.body1}>
-					<form action="/admin/testcases/post" method="post">
+					<form action="/admin/testcases/post" method="post" encType="multipart/form-data">
 						<input type="hidden" name="type" defaultValue="edit" />
 						<label htmlFor="task_id">Task ID</label>
 						<br />
-						<input name="task_id" id="task_id" type="text" autoComplete="on" placeholder="aac001_a" required defaultValue={searchParams.task_id} disabled />
+						<input name="task_id" type="hidden" defaultValue={searchParams.task_id} />
+						<input id="task_id" type="text" autoComplete="on" placeholder="aac001_a" required defaultValue={searchParams.task_id} disabled />
 						<br />
 						<label htmlFor="id">ID</label>
 						<br />
-						<input name="id" id="id" type="text" autoComplete="on" placeholder="test_a" required defaultValue={searchParams.id} disabled />
+						<input name="id" type="hidden" defaultValue={searchParams.id} />
+						<input id="id" type="text" autoComplete="on" placeholder="test_a" required defaultValue={searchParams.id} disabled />
+						<br />
+						<label htmlFor="score">Score</label>
+						<br />
+						<input id="score" name="score" type="number" placeholder="Score" required defaultValue={task.score} />
 						<br />
 						<label htmlFor="input">Reupload input files</label>
 						<br />

@@ -10,7 +10,7 @@ export default class JudgeServer {
 
 	private judging: { [id: string]: Judge } = {};
 
-	public readonly problems: {
+	public problems: {
 		[id: string]: {
 			testcases: Testcases, options: {
 				timeLimit?: number;
@@ -19,6 +19,8 @@ export default class JudgeServer {
 			}
 		}
 	} = {};
+
+	public locked: { [id: string]: boolean } = {};
 
 	constructor(testcases: {
 		[id: string]: {
@@ -57,6 +59,13 @@ export default class JudgeServer {
 			const data = await sql.query("SELECT * FROM submissions WHERE id = ?", [submissionID]);
 
 			const [{ task, sourceCode, language }] = data[0] as [{ task: string, sourceCode: string, language: string }];
+
+			if (this.locked[task]) {
+				this.judgingCount--;
+				this.queue.unshift(submissionID);
+				await sql.query("UPDATE submissions SET judge = ? where id = ?;", [JSON.stringify({ status: Result.IE, message: "The task is temporarily locked for update. Please submit again." }), submissionID]);
+				return;
+			}
 
 			// ジャッジ開始
 
