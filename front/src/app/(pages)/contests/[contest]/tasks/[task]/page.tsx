@@ -12,6 +12,8 @@ import { getUserByToken } from '../@component/users';
 import submitStyle from "./task.module.css";
 import React from 'react';
 
+import "./mathjax.css";
+
 export default async function Home(p: { params: { contest: string, task: string } }) {
 
 	let user = undefined;

@@ -1,6 +1,6 @@
 import layout from "./(pages)/layout";
 
-export default async function notFound() {
+export default async function notFoundPage() {
 	return layout({
 		children:
 			<>

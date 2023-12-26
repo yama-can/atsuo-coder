@@ -4,10 +4,9 @@ import headerStyles from "./header.module.css"
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { cookies } from 'next/headers'
-import React, { useEffect } from 'react';
+import React, { use, useEffect } from 'react';
 import { User, getUserByToken } from './contests/[contest]/tasks/@component/users'
 import { sql } from '../sql'
-import notFound from '../not-found'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,8 +31,9 @@ function baseChild(children: React.ReactNode, user: User | null) {
 										<><li><a href="/login">Login</a></li>
 											<li className={headerStyles.signup}><a href="/signup">Sign Up</a></li></> :
 										<>
-											<li><a href="/logout">Logout</a></li>
-											<li><a href="/account/settings" className={headerStyles.signup}>Account Settings</a></li>
+											{user.admin ? <li><a href="/admin">Admin</a></li> : <></>}
+											<li><a href="/account/settings">Account Settings</a></li>
+											<li><a href="/logout" className={headerStyles.signup}>Logout</a></li>
 										</>
 								}
 							</ul>

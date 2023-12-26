@@ -31,7 +31,6 @@ export async function POST(req: NextRequest) {
 		url.pathname = "/account/settings";
 		url.searchParams.set("error", "0");
 		redis.del("user:" + user.id);
-		redis.del("user:token:" + cookie.get("cc")?.value + ":" + cookie.get("ct")?.value);
 		return Response.redirect(url);
 	} else if (data.get("type") == "password") {
 
@@ -80,7 +79,6 @@ export async function POST(req: NextRequest) {
 		url.pathname = "/account/settings";
 		url.searchParams.set("error", "0");
 		redis.del("user:" + user.id);
-		redis.del("user:token:" + cookie.get("cc")?.value + ":" + cookie.get("ct")?.value);
 		return Response.redirect(url);
 	} else {
 		return new Response("Bad Request", {
