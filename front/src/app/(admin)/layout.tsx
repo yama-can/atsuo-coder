@@ -40,7 +40,11 @@ export default async function RootLayout({
 									user == null ?
 										<><li><a href="/login">Login</a></li>
 											<li className={headerStyles.signup}><a href="/signup">Sign Up</a></li></> :
-										<li><a href="/logout" className={headerStyles.signup}>Logout</a></li>
+										<>
+											<li><a href="/admin">Admin</a></li>
+											<li><a href="/account/settings">Account Settings</a></li>
+											<li><a href="/logout" className={headerStyles.signup}>Logout</a></li>
+										</>
 								}
 							</ul>
 						</ul>

@@ -64,8 +64,8 @@ export default async function Home(params: { params: { [key: string]: string } }
 						{
 							judge == "WJ" ?
 								<p>Waiting Judge</p> :
-								parsedJudge.status == 3 ?
-									<><p className={submissionsStyle["c-ce"]}>CE</p><br /><code>{parsedJudge.message}</code></> :
+								"status" in parsedJudge ?
+									<><p className={submissionsStyle[`c-${resultStrings[parsedJudge.status].toLowerCase()}`]}>{resultStrings[parsedJudge.status]}</p><br /><code>{parsedJudge.message}</code></> :
 									<>
 										<p>
 											<span className={submissionsStyle[`c-${resultStrings[parsedJudge[0][0]].toLowerCase()}`]}>{resultStrings[parsedJudge[0][0]]}</span>
